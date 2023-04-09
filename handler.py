@@ -43,7 +43,7 @@ def send_message(event, context):
             logger.debug(f"Failed: '{attribute}' not in message dict")
             return {"statusCode": 400, "body": f"'{attribute} not in message dict"}
 
-    table = dynamodb.Table("serverless-websocket-connection")
+    table = dynamodb.Table("serverless-websocket-connections")
     response = table.scan(ProjectionExpression="connection_id")
     items = response.get("Items", [])
     connections = [x["connection_id"] for x in items if "connection_id" in x]
