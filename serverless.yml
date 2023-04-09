@@ -39,6 +39,8 @@ functions:
     events:
       - websocket:
           route: $connect
+      - websocket:
+          route: $disconnect
   defaultMessage:
     handler: handler.default_message
     events:
