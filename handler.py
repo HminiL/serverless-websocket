@@ -22,7 +22,7 @@ def connection_manager(event, context):
     elif event["requestContext"]["eventType"] == "DISCONNECT":
         logger.info("Disconnect request")
         # delete connection_id
-        table = dynamodb.Table("serverless-websocker-connections")
+        table = dynamodb.Table("serverless-websocket-connections")
         table.delete_item(Key={"connection_id": connection_id})
         return {"statusCode": 200, "body": "Disconnection successful."}
 
