@@ -57,6 +57,7 @@ def send_message(event, context):
         gatewayapi.post_to_connection(ConnectionId=connection_id, Data=json.dumps(data).encode('utf-8'))
     return {"statusCode": 200, "body": "Message sent to all connections."}
 
+
 def ping(event, context):
     response = {
         "statusCode": 200,

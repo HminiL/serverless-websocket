@@ -45,7 +45,7 @@ functions:
       - websocket:
           route: $default
   sendMessage:
-    handler: handler.sent_message
+    handler: handler.send_message
     events:
       - websocket:
           route: sendMessage
