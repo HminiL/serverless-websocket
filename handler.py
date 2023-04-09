@@ -52,7 +52,7 @@ def send_message(event, context):
     logger.debug(f"Broadcasting message: {message}")
     data = {"messages": [message]}
     for connection_id in connections:
-        endpoint_url = f"https://{event['requestContext']['domain']}/{event['requestContext']['stage']}"
+        endpoint_url = f"https://{event['requestContext']['domainName']}/{event['requestContext']['stage']}"
         gatewayapi = boto3.client("apigatewaymanagementapi", endpoint_url=endpoint_url)
         gatewayapi.post_to_connection(ConnectionId=connection_id, Data=json.dumps(data).encode('utf-8'))
     return {"statusCode": 200, "body": "Message sent to all connections."}
