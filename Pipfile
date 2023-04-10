@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 boto3 = "*"
+requests = "~=2.28.2"
 
 [dev-packages]
 

@@ -2,3 +2,4 @@ node_modules
 .idea
 .serverless
 .python-version
+.env
