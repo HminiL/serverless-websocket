@@ -14,6 +14,7 @@ provider:
             - 'execute-api:ManageConnections'
           Resource:
             - 'arn:aws:execute-api:*:*:**/@connections/*'
+
         - Effect: 'Allow'
           Action:
             - 'dynamodb:PutItem'
@@ -24,8 +25,13 @@ provider:
             - 'dynamodb:BatchWriteItem'
             - 'dynamodb:Scan'
             - 'dynamodb:Query'
+            - 'dynamodb.GetRecords'
+            - 'dynamodb:GetShardIterator'
+            - 'dynamodb:DescribeStream'
+            - 'dynamodb:ListStreams'
           Resource:
             - 'arn:aws:dynamodb:ap-northeast-2:*:*'
+
 
 functions:
   ping:
@@ -51,6 +57,19 @@ functions:
     events:
       - websocket:
           route: sendMessage
+  sendConnectionMessage:
+    handler: handler.send_connection_message
+    events:
+      - stream:
+          type: dynamodb
+          arn:
+              Fn::GetAtt:
+              - ConnectionsTable
+              - StreamArn
+          batchSize: 1
+          filterPatterns:
+            - eventName: [INSERT]
+            - eventName: [DELETE]
 
 plugins:
   - serverless-python-requirements
