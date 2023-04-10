@@ -3,6 +3,8 @@ import logging
 
 import boto3
 
+import utils
+
 logger = logging.getLogger("handler_logger")
 logger.setLevel(logging.DEBUG)
 
@@ -29,6 +31,20 @@ def connection_manager(event, context):
     else:
         logger.error("Connection manager receive unrecognized eventType '{}'")
         return {"statusCode": 500, "body": "Unrecognized eventType"}
+
+
+def send_connection_message(event, context):
+    logger.info("Received event: " + json.dumps(event, indent=2))
+    if not event["Records"]:
+        logger.error("No records in event")
+        return {"statusCode": 500, "body": "No records in event"}
+    if event["Records"][0]["eventName"] == "INSERT":
+        utils.slack_webhook("유저 등장 두둥")
+    elif event["Records"][0]["eventName"] == "DELETE":
+        utils.slack_webhook("유저 퇴장 두둥")
+    else:
+        logger.error("Unrecognized event name.")
+        return {"statusCode": 500, "body": "Unrecognized event name."}
 
 
 def default_message(event, context):
